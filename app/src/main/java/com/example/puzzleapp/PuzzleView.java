@@ -1,6 +1,8 @@
 package com.example.puzzleapp;
 
 import android.graphics.Color;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -36,23 +38,36 @@ public class PuzzleView extends RelativeLayout {
         Random random = new Random( );
         labelHeight = height / numberOfPieces;
         for( int i = 0; i < tvs.length; i++ ) {
-            tvs[i] = new TextView(activity);
-            tvs[i].setGravity(Gravity.CENTER);
-            colors[i] = Color.rgb(random.nextInt(255),
-                    random.nextInt(255), random.nextInt(255));
-            tvs[i].setBackgroundColor(colors[i]);
-            params[i] = new LayoutParams(width, labelHeight);
+            tvs[i] = new TextView( activity );
+            tvs[i].setGravity( Gravity.CENTER );
+            colors[i] = Color.rgb( random.nextInt( 255 ),
+                    random.nextInt( 255 ),	random.nextInt( 255 ) );
+            tvs[i].setBackgroundColor( colors[i] );
+            params[i] = new LayoutParams( width, labelHeight );
             params[i].leftMargin = 0;
             params[i].topMargin = labelHeight * i;
-            addView(tvs[i], params[i]);
+            addView( tvs[i], params[i] );
         }
     }
 
     public void fillGui( String [] scrambledText ) {
+        int minFontSize = DynamicSizing.MAX_FONT_SIZE;
         for( int i = 0; i < tvs.length; i++ ) {
-            tvs[i].setText(scrambledText[i]);
+            tvs[i].setText( scrambledText[i] );
             positions[i] = i;
+
+            tvs[i].setWidth( params[i].width );
+            tvs[i].setPadding( 20, 5, 20, 5 );
+
+            // find font size dynamically
+            int fontSize = DynamicSizing.setFontSizeToFitInView( tvs[i] );
+            if( minFontSize > fontSize )
+                minFontSize = fontSize;
         }
+        Log.w("MainActivity", "font size = " + minFontSize);
+        // set font size for TextViews
+        for( int i = 0; i < tvs.length; i++ )
+            tvs[i].setTextSize( TypedValue.COMPLEX_UNIT_SP, minFontSize );
     }
 
     // Returns the index of tv within the array tvs

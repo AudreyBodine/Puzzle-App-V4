@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
             actionBarHeight = TypedValue.complexToDimensionPixelSize( tv.data,
                     metrics );
 
-        statusBarHeight = ( int ) ( pixelDensity *  STATUS_BAR_HEIGHT );
+        statusBarHeight = ( int ) ( pixelDensity * STATUS_BAR_HEIGHT );
         int resourceId =
                 res.getIdentifier( "status_bar_height", "dimen", "android" );
         if( resourceId != 0 ) // found resource for status bar height
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
                     puzzleView.disableListener( );
                 break;
         }
-        return true; //false;
+        return true;
     }
 
     public boolean onTouchEvent( MotionEvent event ) {
